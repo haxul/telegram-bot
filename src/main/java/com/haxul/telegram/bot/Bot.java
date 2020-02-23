@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 @PropertySource("classpath:telegram.properties")
-public class ChatBot extends TelegramLongPollingBot {
+public class Bot extends TelegramLongPollingBot {
 
     @Value("${bot.name}")
     private String botName;
@@ -21,15 +21,19 @@ public class ChatBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String message_text = update.getMessage().getText();
-            long chat_id = update.getMessage().getChatId();
-            try {
-                sendMessage(chat_id, message_text);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
+       switch (update.getMessage().getText()) {
+           case "/help":
+               update.getMessage().getChatId();
+               break;
+       }
+//        if (update.getMessage().getText().equals(Commands.HELP.getCommand())) {
+//            try {
+//                sendMessage(chatId, "If you want to order bottle of water please type /");
+//            } catch (TelegramApiException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
     }
 
     @Override

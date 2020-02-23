@@ -1,4 +1,4 @@
-package com.haxul.telegram.entities;
+package com.haxul.telegram.models;
 
 
 import javax.persistence.*;
@@ -8,11 +8,11 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column
-    private long chatId;
+    private int chatId;
 
     @Column
     private int stateId;
@@ -36,7 +36,7 @@ public class User {
     private  boolean isNotified;
 
     @OneToMany
-    private List<Order> orders;
+    private List<OrderEntity> orders;
 
     @Embedded
     private UserAddress address;
@@ -49,7 +49,7 @@ public class User {
         this.address = address;
     }
 
-    public List<Order> getOrders() {
+    public List<OrderEntity> getOrders() {
         return orders;
     }
 
@@ -69,25 +69,25 @@ public class User {
         this.surname = surname;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<OrderEntity> orders) {
         this.orders = orders;
     }
 
     public User() {}
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getChatId() {
+    public int getChatId() {
         return chatId;
     }
 
-    public void setChatId(long chatId) {
+    public void setChatId(int chatId) {
         this.chatId = chatId;
     }
 

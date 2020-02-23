@@ -1,4 +1,4 @@
-package com.haxul.telegram.entities;
+package com.haxul.telegram.models;
 
 import javax.persistence.Embeddable;
 

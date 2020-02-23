@@ -1,5 +1,7 @@
 package com.haxul.telegram.bot;
 
+import com.haxul.telegram.bot.actions.HelpAction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -19,21 +21,27 @@ public class Bot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
+    private final HelpAction helpAction;
+
+    public Bot(HelpAction helpAction) {
+        this.helpAction = helpAction;
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
-       switch (update.getMessage().getText()) {
-           case "/help":
-               update.getMessage().getChatId();
-               break;
-       }
-//        if (update.getMessage().getText().equals(Commands.HELP.getCommand())) {
-//            try {
-//                sendMessage(chatId, "If you want to order bottle of water please type /");
-//            } catch (TelegramApiException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        try {
+            switch (update.getMessage().getText()) {
+                case "/help":
+                    helpAction.execute(this, update);
+                    break;
+                default:
+                    long chatId = update.getMessage().getChatId();
+                    String message = "Sorry, I don't recognize this command";
+                    sendMessage(chatId, message);
+            }
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
